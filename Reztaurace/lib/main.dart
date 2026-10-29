@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reztaurace/tabs/tab-manager.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,112 +8,20 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 5,
-        child: Scaffold(
-          appBar: AppBar(
-            foregroundColor: Colors.white,
-            title: const Text('Reztaurace'),
-            backgroundColor: Colors.green,
-          ),
-          bottomNavigationBar: TabBar(
-            indicatorColor: Colors.green,
-            unselectedLabelColor: Colors.black,
-              tabs: [
-                Tab(icon: Icon(Icons.home), text: "Domů",),
-                Tab(icon: Icon(Icons.food_bank), text: "Restaurace",),
-                Tab(icon: Icon(Icons.local_restaurant), text: "Menu",),
-                Tab(icon: Icon(Icons.calendar_month), text: "Kalendář",),
-                Tab(icon: Icon(Icons.settings), text: "Nastavení",)
-              ]
-          ),
-          body: const TabBarView(
-            children: [
-              Home(),
-              Restaurace(),
-              Menu(),
-              Kalendar(),
-              Nastaveni()
-            ],
-          ),
-        ),
-      )
+    return const MaterialApp(
+      title: "Reztaurace",
+      home: TabManager(),
     );
   }
-}
-
-class Home extends StatelessWidget{
-  const Home({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Domovská stránka"),
-      ),
-    );
   }
-}
 
-class Restaurace extends StatelessWidget{
-  const Restaurace({super.key});
+//přesun tabmanager/homepage do tab-manager
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Restaurace"),
-        backgroundColor: Colors.amber,
-        foregroundColor: Colors.black,
-      ),
-    );
-  }
-}
+// class X extending StatelessWidget moved to tabs
 
-class Menu extends StatelessWidget{
-  const Menu({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Funkční menu widget!"),
-      )
-    );
-  }
-}
-
-class Kalendar extends StatelessWidget{
-  const Kalendar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Widget pro kalendář!"),
-      )
-    );
-  }
-}
-
-class Nastaveni extends StatelessWidget{
-  const Nastaveni({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Widget pro nastavení!"),
-      )
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
+/*class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -196,4 +105,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
+}*/
