@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'tab1-home.dart';
-import 'tab2-map.dart';
-import 'tab3-menu.dart';
-import 'tab4-calendar.dart';
-import 'tab5-settings.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'tab1_home.dart';
+import 'tab2_map.dart';
+import 'tab3_menu.dart';
+import 'tab4_calendar.dart';
+import 'tab5_settings.dart';
 
 class TabManager extends StatelessWidget{
   const TabManager({super.key});

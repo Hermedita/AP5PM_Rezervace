@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-class Kalendar extends StatelessWidget{
-  const Kalendar({super.key});
+class Menu extends StatelessWidget{
+  const Menu({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-          child: Text("Widget pro kalendář!"),
+          child: Text("Funkční menu widget!"),
         )
     );
   }
 }
+//reagujici na map
+//foodora pov

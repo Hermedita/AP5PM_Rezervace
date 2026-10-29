@@ -12,3 +12,4 @@ class Home extends StatelessWidget {
     );
   }
 }
+//slideshow

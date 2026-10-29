@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reztaurace/tabs/tab-manager.dart';
+import 'package:reztaurace/tabs/tab_manager.dart';
 
 void main() {
   runApp(const MyApp());
