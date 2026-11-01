@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'tab1_home.dart';
 import 'tab2_map.dart';
 import 'tab3_menu.dart';
@@ -12,29 +11,35 @@ class TabManager extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: DefaultTabController(
           length: 5,
           child: Scaffold(
-            appBar: AppBar(
-              foregroundColor: Colors.white,
-              title: const Text('Reztaurace'),
-              backgroundColor: Colors.green,
-            ),
-            bottomNavigationBar: TabBar(
-                indicatorColor: Colors.green,
-                unselectedLabelColor: Colors.black,
-                tabs: [
-                  Tab(icon: Icon(Icons.home), text: "Domů",),
-                  Tab(icon: Icon(Icons.food_bank), text: "Restaurace",),
-                  Tab(icon: Icon(Icons.local_restaurant), text: "Menu",),
-                  Tab(icon: Icon(Icons.calendar_month), text: "Kalendář",),
-                  Tab(icon: Icon(Icons.settings), text: "Nastavení",)
-                ]
+            appBar: appBar(),
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration( //Nastaveni border nad navigation barem
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.black, width: 2
+                  )
+                )
+              ),
+              child: TabBar(
+                  indicatorColor: Colors.green,
+                  unselectedLabelColor: Colors.black,
+                  tabs: [
+                    Tab(icon: Icon(Icons.home)),
+                    Tab(icon: Icon(Icons.food_bank)),
+                    Tab(icon: Icon(Icons.local_restaurant)),
+                    Tab(icon: Icon(Icons.calendar_month)),
+                    Tab(icon: Icon(Icons.settings))
+                  ]
+              ),
             ),
             body: const TabBarView(
               children: [
                 Home(),
-                Restaurace(),
+                MapaRestauraci(),
                 Menu(),
                 Kalendar(),
                 Nastaveni()
@@ -46,3 +51,18 @@ class TabManager extends StatelessWidget{
   }
 }
 
+AppBar appBar() {
+    return AppBar(
+      title: const Text(
+        'Reztaurace',
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 18,
+          fontWeight: FontWeight.bold
+        ),
+      ),
+      centerTitle: true,
+      elevation: 0.0,
+      backgroundColor: Colors.white,
+    );
+  }
