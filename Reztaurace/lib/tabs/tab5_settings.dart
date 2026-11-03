@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reztaurace/data/restaurant_data.dart';
 
 class Nastaveni extends StatefulWidget{
   const Nastaveni({super.key});
@@ -9,8 +10,7 @@ class Nastaveni extends StatefulWidget{
 
 class _NastaveniState extends State<Nastaveni> {
   bool isDarkMode = false;
-  String lang = "Čeština";
-  var languages = ["Čeština", "Angličtina"];
+  String lang = languages[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
