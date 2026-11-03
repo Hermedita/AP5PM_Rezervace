@@ -78,7 +78,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 40, right: 40),
                 child: Image(
-                    image: AssetImage("images/restaurant_location.png")
+                    image: AssetImage("assets/images/restaurant_location.png")
                 ),
               )
           ),
