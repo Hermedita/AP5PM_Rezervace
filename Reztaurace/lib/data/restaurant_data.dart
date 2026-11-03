@@ -16,3 +16,8 @@ const restaurants = [
     phone: '+420 234 567 890',
   ),
 ];
+
+const languages = [
+  "Čeština",
+  "Angličtina"
+];
