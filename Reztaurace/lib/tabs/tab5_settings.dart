@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reztaurace/data/restaurant_data.dart';
+import 'package:reztaurace/data/lang_data.dart';
 
 class Nastaveni extends StatefulWidget{
   const Nastaveni({super.key});
