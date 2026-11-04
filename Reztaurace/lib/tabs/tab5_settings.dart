@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:reztaurace/data/restaurant_data.dart';
 import 'package:reztaurace/data/lang_data.dart';
 
 class Nastaveni extends StatefulWidget{
-  const Nastaveni({super.key});
+  const Nastaveni({
+    super.key,
+    required this.themeMode,
+    required this.toggleMode
+    });
+
+    final void Function() toggleMode;
+    final ThemeMode themeMode;
 
   @override
   State<Nastaveni> createState() => _NastaveniState();
@@ -53,7 +59,7 @@ class _NastaveniState extends State<Nastaveni> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         SizedBox(height: 5),
-                        Icon(Icons.wb_sunny_outlined, size: 30),
+                        Icon(isDarkMode ? Icons.dark_mode : Icons.light_mode, size: 30),
                       ],
                     ),
                   ),
@@ -67,6 +73,7 @@ class _NastaveniState extends State<Nastaveni> {
                         setState(()
                         {
                           isDarkMode = value;
+                          widget.toggleMode();
                         }
                       );
                       }),
