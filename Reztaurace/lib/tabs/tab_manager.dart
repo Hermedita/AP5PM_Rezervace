@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reztaurace/themes/app_themes.dart';
+import 'package:reztaurace/data/themes/app_themes.dart';
 import 'tab1_home.dart';
 import 'tab2_map.dart';
 import 'tab3_menu.dart';
