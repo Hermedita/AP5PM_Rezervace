@@ -9,12 +9,21 @@ class MapaRestauraci extends StatefulWidget{
 }
 
 class _MapaRestauraciState extends State<MapaRestauraci> {
+  var showMap = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => getPermissionStatus());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: appBar(),
       body: Center(
-        child: permissionNotGiven()  
+        child: showMap ? mapView() : permissionNotGiven()
       )
     );
   }
@@ -37,10 +46,19 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
 */
   Future<void> getPermissionStatus() async {
     var status = await Permission.location.status;
-    if(await status.isDenied){
-      permissionNotGiven();
+    if(status.isDenied){
+      await getPermission();
+    }else if(status.isPermanentlyDenied){
+      openAppSettings();
     }else{
-      mapView();
+      showMap = true;
+    }
+  }
+
+  Future<void> getPermission() async {
+    var locationPermission = await Permission.location.request();
+    if(locationPermission.isDenied){
+      showMap = false;
     }
   }
 
@@ -53,7 +71,6 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
             child: Text(
               "Údaje o poloze",
               style: TextStyle(
-                  color: Colors.black,
                   fontSize: 32,
                   fontWeight: FontWeight.bold
               ),
@@ -67,8 +84,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
               textAlign: TextAlign.center,
               "Pro použití mapy můžete poskytnout informace o své polohu nebo můžete rovnou mapu zobrazit.",
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 20
               ),
             ),
           ),
@@ -86,11 +102,13 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         SizedBox(height: 20),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.amber,
             minimumSize: Size(250, 60)
             ),
           onPressed:() => {
-            //checkLocationPermission();
-            //Permission.location.request()
+            setState(() async {
+              await getPermission();
+            })
           },
           child: Text(
             "Sdílet polohu",
@@ -109,6 +127,9 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
               minimumSize: Size(250, 60)
               ),
             onPressed:() => {
+              setState(() {
+                showMap = true;
+              })
             },
             child: Text(
               "Přejít na mapu",
