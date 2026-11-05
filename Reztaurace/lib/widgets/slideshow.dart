@@ -17,12 +17,14 @@ class ImageSlideshow extends StatefulWidget {
     this.height = 200,
     this.autoPlay = true,
     this.interval = const Duration(seconds: 4),
+    this.borderRadius = 16,
   });
 
   final List<SlideItem> slides;
   final double height;
   final bool autoPlay;
   final Duration interval;
+  final double borderRadius;
 
   @override
   State<ImageSlideshow> createState() => _ImageSlideshowState();
@@ -75,10 +77,17 @@ class _ImageSlideshowState extends State<ImageSlideshow> {
   Widget build(BuildContext context) {
     if (widget.slides.isEmpty) return const SizedBox.shrink();
 
-    return SizedBox(
-      height: widget.height,
+    return Container(
+        height: widget.height,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+        ),
+
       child: Stack(
         children: [
+          //child
           PageView.builder(
             controller: _controller,
             itemCount: widget.slides.length,
@@ -91,6 +100,7 @@ class _ImageSlideshowState extends State<ImageSlideshow> {
                   fit: StackFit.expand,
                   children: [
                     _buildImage(slide.image),
+
                     if (slide.name != null || slide.place != null)
                       Positioned(
                         left: 0,
@@ -122,6 +132,7 @@ class _ImageSlideshowState extends State<ImageSlideshow> {
                         ),
                       ),
                   ],
+
                 ),
               );
             },
