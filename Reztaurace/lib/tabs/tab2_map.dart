@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class MapaRestauraci extends StatefulWidget{
   const MapaRestauraci({super.key});
@@ -145,9 +147,57 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     );
   }
 
-  Center mapView(){
-    return Center(
-      child: Text("There will be a map here!")
+  Stack mapView(){
+    MapController mapController = MapController();    
+    var borderRadius = BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0));
+    return Stack(
+      children: [
+        FlutterMap(
+          mapController: mapController,
+          options: MapOptions(
+              initialCenter: LatLng(51.509364, -0.128928),
+              initialZoom: 8.0
+            ),
+          children: [
+            TileLayer(
+              urlTemplate: '',
+            ),
+          ],          
+        ),
+        SlidingUpPanel(
+          backdropEnabled: true,
+          panel: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Divider(
+                  color: Colors.grey.shade800,
+                  height: 20,
+                  indent: 150,
+                  endIndent: 150,
+                ),
+              ],
+            ),
+          ),
+          collapsed: Container(
+            decoration: BoxDecoration(
+              borderRadius: borderRadius,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Divider(
+                  color: Colors.grey.shade800,
+                  height: 20,
+                  indent: 150,
+                  endIndent: 150,
+                ),
+              ],
+            ),
+          ),
+          borderRadius: borderRadius,
+        ),
+      ],
     );
   }
 }
