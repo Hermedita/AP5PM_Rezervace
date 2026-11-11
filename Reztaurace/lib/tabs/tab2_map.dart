@@ -180,6 +180,9 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 100,
+                    ),
                     Text(
                       restaurants[0].name,
                       style: TextStyle(
@@ -210,7 +213,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                       restaurants[0].place,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 26
+                        fontSize: 24
                       ),
                     ),
                   ],
@@ -243,49 +246,65 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                 SizedBox(
                   height: 20
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)
+                Text(
+                  "Popis ...",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24
+                  ),
+                ),
+                SizedBox(
+                  height: 20
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)
+                            ),
+                            backgroundColor: Colors.black,
+                            minimumSize: Size(105, 60),
+                            iconSize: 40,
+                            iconColor: Colors.white,
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20
+                            )
+                          ),
+                          icon: const Icon(Icons.menu_book),
+                          onPressed: () => {
+                    
+                          },
+                          label: const Text("Menu"),
                         ),
-                        backgroundColor: Colors.black,
-                        minimumSize: Size(105, 60),
-                        iconSize: 40,
-                        iconColor: Colors.white,
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                        )
-                      ),
-                      icon: const Icon(Icons.menu_book),
-                      onPressed: () => {
-
-                      },
-                      label: const Text("Menu"),
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.local_phone),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)
+                            ),
+                            backgroundColor: Colors.green,
+                            minimumSize: Size(105, 60),
+                            iconSize: 40,
+                            iconColor: Colors.white,
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20
+                            )
+                          ),
+                          onPressed: () => {
+                    
+                          },
+                          label: const Text("Zavolat"))
+                      ],
                     ),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.local_phone),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)
-                        ),
-                        backgroundColor: Colors.green,
-                        minimumSize: Size(105, 60),
-                        iconSize: 40,
-                        iconColor: Colors.white,
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                        )
-                      ),
-                      onPressed: () => {
-
-                      },
-                      label: const Text("Zavolat"))
-                  ],
+                  ),
                 ),
               ],
             ),
