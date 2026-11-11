@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reztaurace/data/lang_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Nastaveni extends StatefulWidget{
   const Nastaveni({
@@ -17,6 +18,26 @@ class Nastaveni extends StatefulWidget{
 
 class _NastaveniState extends State<Nastaveni> {
   bool isDarkMode = false;
+
+  @override
+  void initState(){
+    super.initState();
+    retrieveThemeMode();
+  }
+
+  Future<void> retrieveThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if(prefs.getBool("darkMode") != null){
+        if(prefs.getBool("darkMode") == true){
+          isDarkMode = true;
+        }else{
+          isDarkMode = false;
+        }
+      }
+    });
+  }
+
   String lang = languages[0];
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reztaurace/data/themes/app_themes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'tab1_home.dart';
 import 'tab2_map.dart';
 import 'tab3_menu.dart';
@@ -15,12 +16,34 @@ class TabManager extends StatefulWidget{
 
 class _TabManagerState extends State<TabManager> {
   ThemeMode _themeMode = ThemeMode.light;
-  void _toggleMode(){
+  @override
+  void initState(){
+    super.initState();
+    retrieveThemeMode();
+  }
+
+  Future<void> retrieveThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if(prefs.getBool("darkMode") != null){
+        if(prefs.getBool("darkMode") == true){
+          _themeMode = ThemeMode.dark;
+        }else{
+           _themeMode = ThemeMode.light;
+        }
+      }
+    });
+  }
+
+  Future<void> _toggleMode() async {
+    final prefs = await SharedPreferences.getInstance();
     setState(() {
       if(_themeMode == ThemeMode.light){
         _themeMode = ThemeMode.dark;
+        prefs.setBool("darkMode", true);
       }else{
         _themeMode = ThemeMode.light;
+        prefs.setBool("darkMode", false);
       }
     });
   }
