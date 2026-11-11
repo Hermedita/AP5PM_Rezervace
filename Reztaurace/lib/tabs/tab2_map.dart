@@ -3,6 +3,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:reztaurace/data/restaurant_data.dart';
 
 class MapaRestauraci extends StatefulWidget{
   const MapaRestauraci({super.key});
@@ -175,6 +176,116 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                   height: 20,
                   indent: 150,
                   endIndent: 150,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      restaurants[0].name,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "Adresa: ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 26
+                      )
+                    ),
+                    Text(
+                      restaurants[0].place,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 26
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "Otevírací doba: ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24
+                      )
+                    ),
+                    Text(
+                      "10:00 - 16:00",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        backgroundColor: Colors.black,
+                        minimumSize: Size(105, 60),
+                        iconSize: 40,
+                        iconColor: Colors.white,
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20
+                        )
+                      ),
+                      icon: const Icon(Icons.menu_book),
+                      onPressed: () => {
+
+                      },
+                      label: const Text("Menu"),
+                    ),
+                    ElevatedButton.icon(
+                      icon: Icon(Icons.local_phone),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        backgroundColor: Colors.green,
+                        minimumSize: Size(105, 60),
+                        iconSize: 40,
+                        iconColor: Colors.white,
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20
+                        )
+                      ),
+                      onPressed: () => {
+
+                      },
+                      label: const Text("Zavolat"))
+                  ],
                 ),
               ],
             ),
