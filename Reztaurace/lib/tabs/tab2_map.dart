@@ -18,8 +18,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => getPermissionStatus());
+    getPermissionStatus();
   }
 
   @override
