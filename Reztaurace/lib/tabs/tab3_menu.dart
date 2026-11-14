@@ -5,12 +5,12 @@ class Menu extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-          child: Text("Funkční menu widget!"),
-        )
+    return ListView(
+      children: [
+        //child 1 - name of the restaurant
+        //child 2 - list of menu items
+      ],
     );
   }
 }
-//reagujici na map
-//foodora pov
+//reagujici na tab2

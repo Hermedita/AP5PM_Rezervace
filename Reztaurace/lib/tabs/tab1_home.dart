@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        //child 1 - text
+        //child 1 - title text
         const Padding(
           padding: EdgeInsets.all(16),
           child: Text(
@@ -43,6 +43,9 @@ class Home extends StatelessWidget {
         ),
         const Padding(
           padding: EdgeInsets.all(20),
+          child: Text(
+              textAlign: TextAlign.left,
+              "Explore"),
         ),
 
         //child 3 - slideshow

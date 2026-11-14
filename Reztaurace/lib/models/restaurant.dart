@@ -4,6 +4,7 @@ class Restaurant {
   final String image;
   final String place;
   final String phone;
+  final String description;
 
   const Restaurant({
     required this.id,
@@ -11,5 +12,6 @@ class Restaurant {
     required this.image,
     required this.place,
     required this.phone,
+    required this.description,
   });
 }
