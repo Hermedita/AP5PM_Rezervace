@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:reztaurace/widgets/call_button.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:reztaurace/data/restaurant_data.dart';
 
@@ -196,7 +197,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 20,
@@ -221,11 +222,8 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 20,
-                    ),
                     Text(
                       "Otevírací doba: ",
                       style: TextStyle(
@@ -234,7 +232,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                       )
                     ),
                     Text(
-                      "10:00 - 16:00",
+                      "op-hours-testing-not-working",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 24
@@ -245,11 +243,24 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                 SizedBox(
                   height: 20
                 ),
-                Text(
-                  "Popis ...",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
+                Center(
+                  child: Text(
+                    "Popis:",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Text(
+                    restaurants[0].description,
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -282,25 +293,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                           },
                           label: const Text("Menu"),
                         ),
-                        ElevatedButton.icon(
-                          icon: Icon(Icons.local_phone),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)
-                            ),
-                            backgroundColor: Colors.green,
-                            minimumSize: Size(105, 60),
-                            iconSize: 40,
-                            iconColor: Colors.white,
-                            textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20
-                            )
-                          ),
-                          onPressed: () => {
-                    
-                          },
-                          label: const Text("Zavolat"))
+                        CallButton(),
                       ],
                     ),
                   ),
