@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:reztaurace/models/openingHour.dart';
 import '../models/restaurant.dart';
+import '../models/openingDay_enum.dart';
 
 const restaurants = [
   Restaurant(
@@ -7,7 +10,16 @@ const restaurants = [
     image: 'assets/images/001_img.png',
     place: 'Zlín',
     phone: '+420 123 456 789',
-    description: 'Pizza'
+    description: 'Pizza',
+    openingHours: [
+      OpeningHour(day: Day.PO, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.UT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.ST, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.CT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.PA, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.SO, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.NE, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+    ],
   ),
   Restaurant(
     id: 0002,
@@ -15,7 +27,16 @@ const restaurants = [
     image: 'assets/images/002_img.png',
     place: 'Rudolfov',
     phone: '+420 234 567 890',
-    description: 'Pasta'
+    description: 'Pasta',
+    openingHours: [
+      OpeningHour(day: Day.PO, from: TimeOfDay(hour: 12, minute: 0), to: TimeOfDay(hour: 15, minute: 0)),
+      OpeningHour(day: Day.UT, from: TimeOfDay(hour: 12, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.ST, from: TimeOfDay(hour: 13, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.CT, from: TimeOfDay(hour: 18, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.PA, from: TimeOfDay(hour: 10, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.SO, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.NE, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+    ],
   ),
   Restaurant(
     id: 0003,
@@ -23,7 +44,16 @@ const restaurants = [
     image: 'assets/images/003_img.png',
     place: 'Brno',
     phone: '+420 345 678 901 ',
-    description: 'Francie'
+    description: 'Francie',
+    openingHours: [
+      OpeningHour(day: Day.PO, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.UT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.ST, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.CT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.PA, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.SO, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.NE, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+    ],
   ),
   Restaurant(
     id: 0004,
@@ -31,7 +61,16 @@ const restaurants = [
     image: 'assets/images/004_img.png',
     place: 'Slavičín',
     phone: '+420 456 789 012 ',
-    description: 'Čína'
+    description: 'Čína',
+    openingHours: [
+      OpeningHour(day: Day.PO, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.UT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.ST, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.CT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.PA, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.SO, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.NE, from: TimeOfDay(hour: 9, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+    ],
   ),
   Restaurant(
     id: 0005,
@@ -39,7 +78,13 @@ const restaurants = [
     image: 'assets/images/005_img.png',
     place: 'Kroměříž',
     phone: '+420 567 891 234 ',
-    description: 'Indie'
+    description: 'Indie',
+    openingHours: [
+      OpeningHour(day: Day.PO, from: TimeOfDay(hour: 2, minute: 0), to: TimeOfDay(hour: 12, minute: 0)),
+      OpeningHour(day: Day.UT, from: TimeOfDay(hour: 2, minute: 0), to: TimeOfDay(hour: 12, minute: 0)),
+      OpeningHour(day: Day.SO, from: TimeOfDay(hour: 8, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.NE, from: TimeOfDay(hour: 8, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+    ],
   ),
   Restaurant(
     id: 0006,
@@ -47,7 +92,14 @@ const restaurants = [
     image: 'assets/images/006_img.png',
     place: 'Otrokovice',
     phone: '+420 678 912 345 ',
-    description: 'Japonsko'
+    description: 'Japonsko',
+    openingHours: [
+      OpeningHour(day: Day.UT, from: TimeOfDay(hour: 12, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.ST, from: TimeOfDay(hour: 13, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.CT, from: TimeOfDay(hour: 14, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
+      OpeningHour(day: Day.SO, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.NE, from: TimeOfDay(hour: 16, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+    ],
   ),
   Restaurant(
     id: 0007,
@@ -55,6 +107,14 @@ const restaurants = [
     image: 'assets/images/007_img.png',
     place: 'Vizovice',
     phone: '+420 789 123 456 ',
-    description: 'Kebab'
+    description: 'Kebab',
+    openingHours: [
+      OpeningHour(day: Day.PO, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 18, minute: 0)),
+      OpeningHour(day: Day.UT, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 18, minute: 0)),
+      OpeningHour(day: Day.ST, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 18, minute: 0)),
+      OpeningHour(day: Day.CT, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 18, minute: 0)),
+      OpeningHour(day: Day.PA, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+      OpeningHour(day: Day.SO, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
+    ],
   ),
 ];
