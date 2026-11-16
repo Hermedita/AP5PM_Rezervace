@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -15,6 +16,8 @@ class MapaRestauraci extends StatefulWidget{
 
 class _MapaRestauraciState extends State<MapaRestauraci> {
   var showMap = false;
+  var latitude = 50.08804;
+  var longitude = 14.42076;
 
   @override
   void initState() {
@@ -55,6 +58,9 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     }else if(status.isPermanentlyDenied){
       openAppSettings();
     }else{
+      Position position = await Geolocator.getCurrentPosition();
+      latitude = position.latitude;
+      longitude = position.longitude;
       showMap = true;
     }
   }
@@ -63,6 +69,11 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     var locationPermission = await Permission.location.request();
     if(locationPermission.isDenied){
       showMap = false;
+    }else if(locationPermission.isGranted){
+      Position position = await Geolocator.getCurrentPosition();
+      latitude = position.latitude;
+      longitude = position.longitude;
+      showMap = true;
     }
   }
 
@@ -156,12 +167,22 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         FlutterMap(
           mapController: mapController,
           options: MapOptions(
-              initialCenter: LatLng(51.509364, -0.128928),
-              initialZoom: 8.0
+              initialCenter: LatLng(latitude, longitude),
+              initialZoom: 13.4
             ),
           children: [
             TileLayer(
               urlTemplate: '',
+            ),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: LatLng(latitude, longitude),
+                  width: 80,
+                  height: 80,
+                  child: FlutterLogo(),
+                ),
+              ],
             ),
           ],          
         ),
