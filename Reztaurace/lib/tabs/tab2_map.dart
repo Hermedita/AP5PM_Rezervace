@@ -196,7 +196,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
             ),
           children: [
             TileLayer(
-              urlTemplate: 'https://tile.tracestrack.com/_/{z}/{x}/{y}.webp?key=',),
+              urlTemplate: '',),
             MarkerLayer(
             markers: [
               Marker(
