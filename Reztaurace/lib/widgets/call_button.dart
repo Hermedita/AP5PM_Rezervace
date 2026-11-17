@@ -3,10 +3,11 @@ import 'package:reztaurace/data/restaurant_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CallButton extends StatelessWidget{
-  const CallButton({super.key});
+  final String phone;
+  const CallButton({super.key, required this.phone});
 
-  Future<void> _makePhoneCall(String phoneNumber) async {
-    final launchUri = Uri(scheme: 'tel', path: phoneNumber);
+  Future<void> _makePhoneCall(BuildContext context) async {
+    final launchUri = Uri(scheme: 'tel', path: phone);
     await launchUrl(launchUri);
   }
 
@@ -27,9 +28,7 @@ class CallButton extends StatelessWidget{
           fontSize: 20
         )
       ),
-      onPressed: () => {
-        _makePhoneCall(restaurants[0].phone) //Zde je potřeba vyměnit restaurants[0] za vybranou restauraci, zde pouze pro testování
-      },
+      onPressed: phone.isEmpty ? null : () => _makePhoneCall(context),
       label: const Text("Zavolat")
     );
   }

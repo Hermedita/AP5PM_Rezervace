@@ -3,9 +3,18 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:reztaurace/widgets/call_button.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:reztaurace/data/restaurant_data.dart';
+
+import 'package:reztaurace/widgets/call_button.dart';
+
+import 'package:reztaurace/states/state_restaurant.dart';
+
+import 'package:reztaurace/models/restaurant.dart';
+
+import '../data/restaurant_data.dart';
+import '../models/openingDay_enum.dart';
+
+
 
 class MapaRestauraci extends StatefulWidget{
   const MapaRestauraci({super.key});
@@ -24,6 +33,21 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     super.initState();
     getPermissionStatus();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  //dnesni oteviraci doba
+  String _todayHours(Restaurant r) {
+      final today = Day.values[DateTime.now().weekday - 1]; // enum order PO, UT, ST, CT, PA, SO, NE
+      final matches = r.openingHours.where((o) => o.day == today);
+        if (matches.isEmpty) return 'Dnes zavřeno';
+        final h = matches.first;
+      String f(TimeOfDay t) => '${t.hour}:${t.minute.toString().padLeft(2, '0')}';
+      return '${f(h.from)} – ${f(h.to)}';
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -52,28 +76,32 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
   }
 */
   Future<void> getPermissionStatus() async {
-    var status = await Permission.location.status;
+    final status = await Permission.location.status;
     if(status.isDenied){
       await getPermission();
     }else if(status.isPermanentlyDenied){
       openAppSettings();
     }else{
-      Position position = await Geolocator.getCurrentPosition();
-      latitude = position.latitude;
-      longitude = position.longitude;
-      showMap = true;
+      final position = await Geolocator.getCurrentPosition();
+      if (!mounted) return;
+      setState(() {
+        latitude = position.latitude;
+        longitude = position.longitude;
+        showMap = true;
+      });
     }
   }
 
   Future<void> getPermission() async {
-    var locationPermission = await Permission.location.request();
-    if(locationPermission.isDenied){
-      showMap = false;
-    }else if(locationPermission.isGranted){
-      Position position = await Geolocator.getCurrentPosition();
+    final locationPermission = await Permission.location.request();
+    if(locationPermission.isGranted){
+      final position = await Geolocator.getCurrentPosition();
       latitude = position.latitude;
       longitude = position.longitude;
       showMap = true;
+    } else {
+      if(!mounted) return;
+      setState(() => showMap = false);
     }
   }
 
@@ -120,11 +148,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
             backgroundColor: Colors.amber,
             minimumSize: Size(250, 60)
             ),
-          onPressed:() => {
-            setState(() async {
-              await getPermission();
-            })
-          },
+          onPressed:() => getPermission(),
           child: Text(
             "Sdílet polohu",
             style: TextStyle(
@@ -172,175 +196,155 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
             ),
           children: [
             TileLayer(
-              urlTemplate: 'https://tile.tracestrack.com/_/{z}/{x}/{y}.webp?key=',
-            ),
+              urlTemplate: 'https://tile.tracestrack.com/_/{z}/{x}/{y}.webp?key=',),
             MarkerLayer(
-              markers: [
-                Marker(
-                  point: LatLng(latitude, longitude),
-                  width: 80,
-                  height: 80,
-                  child: FlutterLogo(),
-                ),
-              ],
-            ),
-          ],          
+            markers: [
+              Marker(
+              point: LatLng(latitude, longitude),
+              width: 80,
+              height: 80,
+              child: const FlutterLogo(),
+              ),
+              ...restaurants.map((r) => Marker(
+                point: LatLng(r.lat, r.lng),
+                width: 80,
+                height: 80,
+                child: GestureDetector(
+                onTap: () => selectedRestaurant.value = r,
+                child: const Icon(Icons.location_on, color: Colors.amber, size: 40),
+              ),
+            )),
+          ],
+        ),
+        ],
         ),
         SlidingUpPanel(
           backdropEnabled: true,
-          panel: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Divider(
-                  color: Colors.grey.shade800,
-                  height: 20,
-                  indent: 150,
-                  endIndent: 150,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 100,
-                    ),
-                    Text(
-                      restaurants[0].name,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold
-                      )
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      "Adresa: ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 26
-                      )
-                    ),
-                    Text(
-                      restaurants[0].place,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 24
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Otevírací doba: ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 24
-                      )
-                    ),
-                    Text(
-                      "op-hours-testing-not-working",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 24
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20
-                ),
-                Center(
-                  child: Text(
-                    "Popis:",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Text(
-                    restaurants[0].description,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)
-                            ),
-                            backgroundColor: Colors.black,
-                            minimumSize: Size(105, 60),
-                            iconSize: 40,
-                            iconColor: Colors.white,
-                            textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20
-                            )
-                          ),
-                          icon: const Icon(Icons.menu_book),
-                          onPressed: () => {
-                    
-                          },
-                          label: const Text("Menu"),
-                        ),
-                        CallButton(),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          collapsed: Container(
-            decoration: BoxDecoration(
-              borderRadius: borderRadius,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Divider(
-                  color: Colors.grey.shade800,
-                  height: 20,
-                  indent: 150,
-                  endIndent: 150,
-                ),
-              ],
-            ),
-          ),
           borderRadius: borderRadius,
+          collapsed: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Divider(color: Colors.grey.shade800,height: 20,indent: 150,endIndent: 150,),
+                ],
+            ),
+          ),
+          panel: ValueListenableBuilder<Restaurant?>(
+            valueListenable: selectedRestaurant,
+            builder: (context, restaurant, _){
+              if (restaurant == null) {
+                return const Center(child: Text('Vyberte restauraci v mapě'));
+              }
+              return Center(
+                child: Column(
+                  children: [
+                  Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 100,),
+                  Text(
+                    restaurant.name,
+                    style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold)
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(width: 20,),
+              Text(
+                  "Adresa: ",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 26 )
+                  ),
+              Text(
+                restaurant.place,
+                  style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Otevírací doba: ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24)
+                    ),
+                Text(
+                  _todayHours(restaurant),
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
+                  ],
+                ),
+            SizedBox(height: 20),
+            Center(
+              child: Text(
+                "Popis:",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24),
+                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Text(
+                restaurant.description,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                color: Colors.black,
+                fontSize: 24),
+              ),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: Colors.black,
+                        minimumSize: Size(105, 60),
+                        iconSize: 40,
+                        iconColor: Colors.white,
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20)
+                        ),
+                      icon: const Icon(Icons.menu_book),
+                      onPressed: () => {},
+                      label: const Text("Menu"),
+                    ),
+                    CallButton(phone: restaurant.phone),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    );
-  }
+      );
+    },
+    ),
+        ),
+                  ],
+                );
+}
+/*
+collapsed: Container(decoration: BoxDecoration(borderRadius: borderRadius,),
+child: Column(mainAxisAlignment: MainAxisAlignment.start,
+children: [Divider(color: Colors.grey.shade800,height: 20,indent: 150,endIndent: 150,),],),);
+borderRadius: borderRadius;},),),],);}} */
 }

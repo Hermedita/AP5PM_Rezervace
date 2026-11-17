@@ -56,7 +56,7 @@ class Home extends StatelessWidget {
               SlideItem(
                 image: r.image,
                 name: r.name,
-                place: r.place,
+                //place: r.place,
 
                 onTap: () {
                   selectedRestaurant.value = r;

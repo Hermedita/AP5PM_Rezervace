@@ -1,59 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:device_calendar_plus/device_calendar_plus.dart';
-import 'package:reztaurace/data/restaurant_data.dart';
+
+import 'package:reztaurace/models/restaurant.dart';
+import 'package:reztaurace/models/timeSlot.dart';
+
 
 class CalendarWriteButton extends StatelessWidget{
-  const CalendarWriteButton({super.key});
+  final Restaurant restaurants;
+  final Timeslot? timeslot;
+  const CalendarWriteButton({super.key, required this.restaurants, this.timeslot});
 
-  /*
-  Future<void> _getPermission() async {
+  Future<void> _writeReminder(BuildContext context) async {
+    final slot = timeslot;
+    if (slot == null) return;
+
     final plugin = DeviceCalendar.instance;
-    final status = await plugin.requestPermissions(level: CalendarAccessLevel.writeOnly);
-    if (status != CalendarPermissionStatus.granted) {
-      await plugin.openAppSettings();
+
+    try {
+      var status = await plugin.hasPermissions();
+      if (status != CalendarPermissionStatus.granted) {
+        status = await plugin.requestPermissions(level: CalendarAccessLevel.full);
+      }
+      if (status != CalendarPermissionStatus.granted) {
+        await plugin.openAppSettings();
+        return;
     }
-  }
-   */
+    await plugin.createEvent(
+      title: 'Návštěva restaurace ${restaurants.name}',
+      //DateTime (Y, M,D, H,M)
+      startDate: slot.from,
+      endDate: slot.end,
+      location: restaurants.place,
+    );
 
-  Future<void> _writeReminder() async {
-    final plugin = DeviceCalendar.instance;
-    final current = await plugin.hasPermissions();
-
-    if (current == CalendarPermissionStatus.writeOnly || current == CalendarPermissionStatus.granted) {
-      await plugin.createEvent(
-          title: ('Návštěva restaurace ${restaurants[1].name}'),
-          //DateTime (Y, M,D, H,M)
-          startDate: DateTime(2024, 3, 20, 10, 0), //zalezi na timeslotu
-          endDate: DateTime(2024, 3, 20, 12, 0),   //zalezi na timeslotu
-          location: (restaurants[1].place)
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Připomínka vytvořena')),
       );
     }
-    else{
-      await plugin.openAppSettings();
+  } catch (e) {
+    debugPrint('createEvent failed: $e');
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nepodařilo se vytvořit připomínku')),
+      );
     }
   }
-
+ }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
         icon: Icon(Icons.calendar_month_rounded),
         style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             backgroundColor: Colors.indigo,
             minimumSize: Size(105, 60),
             iconSize: 40,
             iconColor: Colors.blueGrey,
-            textStyle: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 20
-            )
+            textStyle: TextStyle(color: Colors.blueGrey,fontSize: 20)
         ),
-        onPressed: () => {
-          _writeReminder()//restaurants[1].openingHours[2]
-        },
+        onPressed: timeslot == null ? null : () => _writeReminder(context), //restaurants[1].openingHours[2],
         label: const Text("Vytvořit připomínku")
     );
   }
