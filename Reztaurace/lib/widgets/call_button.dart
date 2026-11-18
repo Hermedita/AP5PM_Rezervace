@@ -29,7 +29,7 @@ class CallButton extends StatelessWidget{
         )
       ),
       onPressed: phone.isEmpty ? null : () => _makePhoneCall(context),
-      label: const Text("Zavolat")
+      label: const Text("Zavolat", style: TextStyle(color: Colors.white))
     );
   }
 }

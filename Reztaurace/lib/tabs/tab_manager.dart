@@ -47,6 +47,7 @@ class _TabManagerState extends State<TabManager> {
       }
     });
   }
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -80,7 +81,9 @@ class _TabManagerState extends State<TabManager> {
           body: TabBarView(
             children: [
               const Home(),
-              const MapaRestauraci(),
+              MapaRestauraci(
+                themeMode: _themeMode
+              ),
               const Menu(),
               const Kalendar(),
               Nastaveni(

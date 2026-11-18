@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:reztaurace/widgets/call_button.dart';
@@ -17,7 +18,12 @@ import '../models/openingDay_enum.dart';
 
 
 class MapaRestauraci extends StatefulWidget{
-  const MapaRestauraci({super.key});
+  const MapaRestauraci({
+    super.key,
+    required this.themeMode
+    });
+
+    final ThemeMode themeMode;
 
   @override
   State<MapaRestauraci> createState() => _MapaRestauraciState();
@@ -25,13 +31,19 @@ class MapaRestauraci extends StatefulWidget{
 
 class _MapaRestauraciState extends State<MapaRestauraci> {
   var showMap = false;
-  var latitude = 50.08804;
-  var longitude = 14.42076;
+  var locationGiven = false;
+  var latitude = 49.69642303690507;
+  var longitude = 15.813738383583702;
+  var zoom = 6.3;
+  var mapUrl = '';
+  bool isDarkMode = false;
+  MapController mapController = MapController();    
 
   @override
   void initState() {
     super.initState();
     getPermissionStatus();
+    retrieveThemeMode();
   }
 
   @override
@@ -58,23 +70,20 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
       )
     );
   }
-/*
-  AppBar appBar() {
-    return AppBar(
-      title: const Text(
-        'Mapa restaurací',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 18,
-          fontWeight: FontWeight.bold
-        ),
-      ),
-      centerTitle: true,
-      elevation: 0.0,
-      backgroundColor: Colors.white,
-    );
+
+  Future<void> retrieveThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if(prefs.getBool("darkMode") != null){
+        if(prefs.getBool("darkMode") == true){
+          isDarkMode = true;
+        }else{
+          isDarkMode = false;
+        }
+      }
+    });
   }
-*/
+
   Future<void> getPermissionStatus() async {
     final status = await Permission.location.status;
     if(status.isDenied){
@@ -87,6 +96,8 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
       setState(() {
         latitude = position.latitude;
         longitude = position.longitude;
+        zoom = 13.0;
+        locationGiven = true;
         showMap = true;
       });
     }
@@ -184,7 +195,6 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
   }
 
   Stack mapView(){
-    MapController mapController = MapController();    
     var borderRadius = BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0));
     return Stack(
       children: [
@@ -192,26 +202,19 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
           mapController: mapController,
           options: MapOptions(
               initialCenter: LatLng(latitude, longitude),
-              initialZoom: 13.4
+              initialZoom: zoom
             ),
           children: [
-            TileLayer(
-              urlTemplate: '',),
+            TileLayer(urlTemplate: isDarkMode ? "$mapUrl&style=dark3" : mapUrl),
             MarkerLayer(
             markers: [
-              Marker(
-              point: LatLng(latitude, longitude),
-              width: 80,
-              height: 80,
-              child: const FlutterLogo(),
-              ),
               ...restaurants.map((r) => Marker(
                 point: LatLng(r.lat, r.lng),
                 width: 80,
                 height: 80,
                 child: GestureDetector(
                 onTap: () => selectedRestaurant.value = r,
-                child: const Icon(Icons.location_on, color: Colors.amber, size: 40),
+                child: Icon(Icons.location_on, color: isDarkMode ? const Color.fromARGB(255, 255, 0, 0) : Colors.amber, size: 40),
               ),
             )),
           ],
@@ -219,13 +222,14 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         ],
         ),
         SlidingUpPanel(
+          color: isDarkMode ? Colors.grey.shade800 : Colors.white,
           backdropEnabled: true,
           borderRadius: borderRadius,
           collapsed: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Divider(color: Colors.grey.shade800,height: 20,indent: 150,endIndent: 150,),
+                Divider(height: 20, indent: 150, endIndent: 150),
                 ],
             ),
           ),
@@ -245,7 +249,6 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                   Text(
                     restaurant.name,
                     style: TextStyle(
-                    color: Colors.black,
                     fontSize: 26,
                     fontWeight: FontWeight.bold)
                   ),
@@ -259,13 +262,11 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
               Text(
                   "Adresa: ",
                   style: TextStyle(
-                    color: Colors.black,
                     fontSize: 26 )
                   ),
               Text(
                 restaurant.place,
                   style: TextStyle(
-                  color: Colors.black,
                   fontSize: 24),
                 ),
               ],
@@ -277,12 +278,11 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                 Text(
                   "Otevírací doba: ",
                     style: TextStyle(
-                      color: Colors.black,
                       fontSize: 24)
                     ),
                 Text(
                   _todayHours(restaurant),
-                  style: TextStyle(color: Colors.black, fontSize: 24),
+                  style: TextStyle(fontSize: 24),
                 ),
                   ],
                 ),
@@ -291,7 +291,6 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
               child: Text(
                 "Popis:",
                 style: TextStyle(
-                  color: Colors.black,
                   fontSize: 24),
                 ),
             ),
@@ -301,7 +300,6 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                 restaurant.description,
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                color: Colors.black,
                 fontSize: 24),
               ),
             ),
@@ -326,7 +324,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
                         ),
                       icon: const Icon(Icons.menu_book),
                       onPressed: () => {},
-                      label: const Text("Menu"),
+                      label: const Text("Menu", style: TextStyle(color: Colors.white)),
                     ),
                     CallButton(phone: restaurant.phone),
                   ],
@@ -339,9 +337,42 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     },
     ),
         ),
+        locationGiven ? floatingButtonLocationGiven() : floatingButtonLocationNotGiven(),
                   ],
                 );
 }
+
+  Padding floatingButtonLocationNotGiven() {
+    return Padding(
+        padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+        child: FloatingActionButton(
+          backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.white,
+          onPressed: () => {
+            setState(() {
+              showMap = false;
+            })
+          },
+          child:
+            Icon(Icons.location_off, color: isDarkMode ? Colors.white : Colors.grey.shade800),
+        ),
+      );
+  }
+
+  Padding floatingButtonLocationGiven() {
+    return Padding(
+        padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+        child: FloatingActionButton(
+          backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.white,
+          onPressed: () => {
+            setState(() {
+              mapController.move(LatLng(latitude, longitude), zoom);
+            })
+          },
+          child:
+            Icon(Icons.location_searching, color: isDarkMode ? Colors.white : Colors.grey.shade800),
+        ),
+      );
+  }
 /*
 collapsed: Container(decoration: BoxDecoration(borderRadius: borderRadius,),
 child: Column(mainAxisAlignment: MainAxisAlignment.start,
