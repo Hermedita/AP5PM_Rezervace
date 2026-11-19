@@ -6,13 +6,13 @@ import '../models/openingDay_enum.dart';
 const restaurants = [
   Restaurant(
     id: 0001,
-    name: 'Restaurace 01',
+    name: 'Pizza Koutek',
     image: 'assets/images/001_img.png',
     lat: 49.226860,
     lng: 17.668961,
     place: 'Zlín',
     phone: '+420 123 456 789',
-    description: 'Pizza',
+    description: 'Pizzerie, "Přijďte k nám na pizzu! Jsme nejlepší pizzerie ve Zlínském kraji! Nabízíme velkou škálu pizz z lokálních ingrediencí."',
     openingHours: [
       OpeningHour(day: Day.PO, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
       OpeningHour(day: Day.UT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
@@ -25,13 +25,13 @@ const restaurants = [
   ),
   Restaurant(
     id: 0002,
-    name: 'Restaurace 02',
+    name: 'ItaMania',
     image: 'assets/images/002_img.png',
     lat: 48.993833,
     lng: 14.542926,
     place: 'Rudolfov',
     phone: '+420 234 567 890',
-    description: 'Pasta',
+    description: 'Pasta, "Přijďte na tradiční těstovinové speciality ze všech koutů Itálie! S námi projdete od překrásných břehů Sicílie až po milánskou architekturu!"',
     openingHours: [
       OpeningHour(day: Day.PO, from: TimeOfDay(hour: 12, minute: 0), to: TimeOfDay(hour: 15, minute: 0)),
       OpeningHour(day: Day.UT, from: TimeOfDay(hour: 12, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
@@ -44,13 +44,13 @@ const restaurants = [
   ),
   Restaurant(
     id: 0003,
-    name: 'Restaurace 03',
+    name: 'Escar gras',
     image: 'assets/images/003_img.png',
     lat: 49.195061,
     lng: 16.606836,
     place: 'Brno',
     phone: '+420 345 678 901 ',
-    description: 'Francie',
+    description: 'Francie, "Nabízíme luxusní pokrmy z francouzské kuchyně, které jste doposud neviděli. Kombinace nejznámějších francouzských pokrmů Vás zaručeně ohromí!"',
     openingHours: [
       OpeningHour(day: Day.PO, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
       OpeningHour(day: Day.UT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
@@ -63,13 +63,13 @@ const restaurants = [
   ),
   Restaurant(
     id: 0004,
-    name: 'Restaurace 04',
+    name: 'Pek-Pao-Baozi',
     image: 'assets/images/004_img.png',
     lat: 49.088509,
     lng: 17.875650,
     place: 'Slavičín',
     phone: '+420 456 789 012 ',
-    description: 'Čína',
+    description: 'Čína, "Přijďte získat nový pohled na tradiční čínskou kuchyni ve formě nově vzniklých verzí tradičních pokrmů jako je Kung-Pao nebo Baozi!"',
     openingHours: [
       OpeningHour(day: Day.PO, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
       OpeningHour(day: Day.UT, from: TimeOfDay(hour: 11, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
@@ -82,13 +82,13 @@ const restaurants = [
   ),
   Restaurant(
     id: 0005,
-    name: 'Restaurace 05',
+    name: 'NepaliBaj',
     image: 'assets/images/005_img.png',
     lat: 49.291703,
     lng: 17.404065,
     place: 'Kroměříž',
     phone: '+420 567 891 234 ',
-    description: 'Indie',
+    description: 'Indie, "Naše kuchyně nabízí klasické indické jídla společně s možností výběru naší nejpálivější omáčky, která je výzvou i pro ty nejsilnější. "',
     openingHours: [
       OpeningHour(day: Day.PO, from: TimeOfDay(hour: 2, minute: 0), to: TimeOfDay(hour: 12, minute: 0)),
       OpeningHour(day: Day.UT, from: TimeOfDay(hour: 2, minute: 0), to: TimeOfDay(hour: 12, minute: 0)),
@@ -98,13 +98,13 @@ const restaurants = [
   ),
   Restaurant(
     id: 0006,
-    name: 'Restaurace 06',
+    name: 'Faiyāresutoran',
     image: 'assets/images/006_img.png',
     lat: 49.1992655,
     lng: 17.5399188,
     place: 'Otrokovice',
     phone: '+420 678 912 345 ',
-    description: 'Japonsko',
+    description: 'Japonsko, "Nabízíme velkou škálu japonských jídel, kde společně s nejznámějšími specialitami jako jediní v Česku nabízíme řádně připravenou rybu Fugu!"',
     openingHours: [
       OpeningHour(day: Day.UT, from: TimeOfDay(hour: 12, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
       OpeningHour(day: Day.ST, from: TimeOfDay(hour: 13, minute: 0), to: TimeOfDay(hour: 22, minute: 0)),
@@ -115,13 +115,13 @@ const restaurants = [
   ),
   Restaurant(
     id: 0007,
-    name: 'Restaurace 07',
+    name: 'AntaBul Kebab',
     image: 'assets/images/007_img.png',
     lat: 49.2228824,
     lng: 17.854242,
     place: 'Vizovice',
     phone: '+420 789 123 456 ',
-    description: 'Kebab',
+    description: 'Kebab, "Přijďte ochutnat největší kebab v České republice! Zároveň podáváme i naše speciality, které kombinují kebab s českou kuchyní!"',
     openingHours: [
       OpeningHour(day: Day.PO, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 18, minute: 0)),
       OpeningHour(day: Day.ST, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 18, minute: 0)),
