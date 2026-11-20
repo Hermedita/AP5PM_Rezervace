@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reztaurace/data/restaurant_data.dart';
 
 import '../models/restaurant.dart';
 import '../states/state_restaurant.dart';
@@ -49,6 +50,13 @@ class Menu extends StatefulWidget{
     });
   }
 
+  //tohle je jenom aby to neházele chyby (nefunguje to!!!!)
+  Future<List<Menu>> fetchMenus(Restaurant r) async {
+    final menus = <Menu>[];
+    r = r;
+    return menus;
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,4 +78,5 @@ class Menu extends StatefulWidget{
     );
   }
   );
+}
 }
