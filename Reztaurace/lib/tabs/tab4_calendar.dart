@@ -111,7 +111,7 @@ class Kalendar extends StatefulWidget{
         builder: (context, restaurants, _){
           if (restaurants == null) {
             return const Center(
-                child: Text('Vyberte restauraci v mapě'));
+                child: Text('Vyberte restauraci na mapě'));
           }
           return ListView(
             children: [
