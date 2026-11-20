@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Menu extends StatelessWidget{
-  const Menu({super.key});
+  const Menu({
+  super.key,
+  required this.themeMode
+  });
+  final ThemeMode themeMode;
 
   @override
   Widget build(BuildContext context) {

@@ -80,12 +80,18 @@ class _TabManagerState extends State<TabManager> {
           ),
           body: TabBarView(
             children: [
-              const Home(),
+              Home(
+                themeMode: _themeMode,
+              ),
               MapaRestauraci(
                 themeMode: _themeMode
               ),
-              const Menu(),
-              const Kalendar(),
+              Menu(
+                themeMode: _themeMode,
+              ),
+              Kalendar(
+                themeMode: _themeMode,
+              ),
               Nastaveni(
                 themeMode: _themeMode,
                 toggleMode: _toggleMode,

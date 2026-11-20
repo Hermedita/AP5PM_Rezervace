@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:device_calendar_plus/device_calendar_plus.dart';
 
-import 'package:reztaurace/data/restaurant_data.dart';
 import 'package:reztaurace/data/timeslot_data.dart';
 //models
 import 'package:reztaurace/models/restaurant.dart';
@@ -15,7 +14,11 @@ import 'package:reztaurace/states/state_restaurant.dart';
 import 'package:reztaurace/states/state_timeslot.dart';
 
 class Kalendar extends StatefulWidget{
-  const Kalendar({super.key});
+  const Kalendar({
+  super.key,
+  required this.themeMode
+  });
+  final ThemeMode themeMode;
 
   @override
   State<Kalendar> createState() => _KalendarState();}
@@ -24,6 +27,8 @@ class Kalendar extends StatefulWidget{
     bool showCalendar = false;
     List<Timeslot> _slots = [];
     bool _loading_active = false;
+    bool isDarkMode = false;
+
 
     static const _pageSize = 6;
       int _page = 0;
@@ -58,6 +63,7 @@ class Kalendar extends StatefulWidget{
     _getPermission();
     selectedRestaurant.addListener(_onRestaurantChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) => _onRestaurantChanged());
+    //retrieveThemeMode();
   }
 
   @override
@@ -123,6 +129,8 @@ class Kalendar extends StatefulWidget{
                   children: _days.map((d) => Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: ChoiceChip(
+                    selectedColor: isDarkMode ? const Color.fromARGB(255, 110, 37, 37) : const Color.fromARGB(255, 227, 144, 29),
+                    backgroundColor: isDarkMode ? const Color.fromARGB(255, 186, 103, 103) : const Color.fromARGB(255, 165, 98, 0),
                       label: Text('${d.day}.${d.month}.'),
                       selected: _day != null && _sameDay(d, _day!),
                       onSelected: (_) => setState(() {

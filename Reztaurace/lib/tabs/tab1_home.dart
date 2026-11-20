@@ -6,7 +6,11 @@ import '../widgets/slideshow.dart';
 import '../widgets/circle_list_item.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({
+  super.key,
+  required this.themeMode
+  });
+  final ThemeMode themeMode;
 
   @override
 
@@ -56,7 +60,7 @@ class Home extends StatelessWidget {
               SlideItem(
                 image: r.image,
                 name: r.name,
-                //place: r.place,
+                place: r.place,
 
                 onTap: () {
                   selectedRestaurant.value = r;
