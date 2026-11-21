@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false, //Vypnuti debug banneru, pri vytvoreni apk bude automaticky false
       title: "Reztaurace",
-      home: TabManager(),
+      home: TabManager()
     );
   }
   }

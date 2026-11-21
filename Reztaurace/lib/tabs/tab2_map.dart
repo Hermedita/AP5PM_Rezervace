@@ -3,10 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
-import 'package:permission_handler/permission_handler.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:reztaurace/widgets/call_button.dart';
@@ -15,37 +11,27 @@ import 'package:reztaurace/states/state_restaurant.dart';
 
 import 'package:reztaurace/models/restaurant.dart';
 
+import 'package:reztaurace/darkMode/setMode.dart';
+import 'package:reztaurace/data/map_data.dart';
+
 import '../data/restaurant_data.dart';
 import '../models/openingDay_enum.dart';
 
-
-
 class MapaRestauraci extends StatefulWidget{
-  const MapaRestauraci({
-    super.key,
-    required this.themeMode
-    });
-
-    final ThemeMode themeMode;
+  const MapaRestauraci({super.key});
 
   @override
   State<MapaRestauraci> createState() => _MapaRestauraciState();
 }
 
 class _MapaRestauraciState extends State<MapaRestauraci> {
-  var showMap = false;
-  var locationGiven = false;
-  var latitude = 49.69642303690507;
-  var longitude = 15.813738383583702;
-  var zoom = 6.3;
-  var mapUrl = '';
-  bool isDarkMode = false;
-  MapController mapController = MapController();    
+  MapController mapController = MapController();
+  var _loading_active = false;
 
   @override
   void initState() {
     super.initState();
-    getPermissionStatus();
+    WidgetsBinding.instance.addPostFrameCallback((_) => getLocationPermission(false));
     retrieveThemeMode();
   }
 
@@ -69,7 +55,9 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         locationInfoTitle(),
         locationInfo(),
         locationInfoImage(),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
+        if (_loading_active) const Center(child: CircularProgressIndicator()),
+        SizedBox(height: 10),
         shareLocationButton(),
         SizedBox(height: 10),
         showMapButton()
@@ -176,7 +164,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         backgroundColor: Colors.amber,
         minimumSize: Size(250, 60)
         ),
-      onPressed:() => getPermission(),
+      onPressed:() => getLocationPermission(true),
       child: Text(
         "Sdílet polohu",
         style: TextStyle(
@@ -404,32 +392,61 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
       return '${f(h.from)} – ${f(h.to)}';
     }
 
-  
+  Future<void> getLocationPermission(bool isBtn) async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  Future<void> retrieveThemeMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if(prefs.getBool("darkMode") != null){
-        if(prefs.getBool("darkMode") == true){
-          isDarkMode = true;
-        }else{
-          isDarkMode = false;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        if(!mounted) return;
+        return Future.error('Location permissions are denied');
+      }else if(permission == LocationPermission.deniedForever){
+        if(isBtn){
+          Geolocator.openAppSettings();
         }
+        if(!mounted) return;
+        return Future.error(
+            'Location permissions are permanently denied, we cannot request permissions.');
+      }else{
+        Position? position = await Geolocator.getLastKnownPosition();
+        if(position == null){
+          setState(() => _loading_active = true);
+          position = await Geolocator.getCurrentPosition();
+        }
+        setState(() {
+          _loading_active = false;
+          latitude = position!.latitude;
+          longitude = position.longitude;
+          zoom = 13.0;
+          locationGiven = true;
+          showMap = true;
+        });
       }
-    });
-  }
+    }
 
-  Future<void> getPermissionStatus() async {
-    final status = await Permission.location.status;
-    if(status.isDenied){
-      await getPermission();
-    }else if(status.isPermanentlyDenied){
-      openAppSettings();
+    if (permission == LocationPermission.deniedForever) {
+      if(isBtn){
+        Geolocator.openAppSettings();
+      }
+      if(!mounted) return;
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }else{
-      final position = await Geolocator.getCurrentPosition();
-      if (!mounted) return;
-      setState(() {
-        latitude = position.latitude;
+      Position? position = await Geolocator.getLastKnownPosition();
+      if(position == null){
+        setState(() => _loading_active = true);
+        position = await Geolocator.getCurrentPosition();
+      }
+      setState((){
+        _loading_active = false;
+        latitude = position!.latitude;
         longitude = position.longitude;
         zoom = 13.0;
         locationGiven = true;
@@ -437,22 +454,4 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
       });
     }
   }
-
-  Future<void> getPermission() async {
-    final locationPermission = await Permission.location.request();
-    if(locationPermission.isGranted){
-      final position = await Geolocator.getCurrentPosition();
-      latitude = position.latitude;
-      longitude = position.longitude;
-      showMap = true;
-    } else {
-      if(!mounted) return;
-      setState(() => showMap = false);
-    }
-  }
-/*
-collapsed: Container(decoration: BoxDecoration(borderRadius: borderRadius,),
-child: Column(mainAxisAlignment: MainAxisAlignment.start,
-children: [Divider(color: Colors.grey.shade800,height: 20,indent: 150,endIndent: 150,),],),);
-borderRadius: borderRadius;},),),],);}} */
 }

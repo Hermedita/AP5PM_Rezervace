@@ -59,41 +59,34 @@ class _TabManagerState extends State<TabManager> {
         length: 5,
         child: Scaffold(
           appBar: appBar(),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration( //Nastaveni border nad navigation barem
-              border: Border(
-                top: BorderSide(
-                  color: Colors.black, width: 2
+          bottomNavigationBar: SafeArea(
+            child: Container(
+              decoration: BoxDecoration( //Nastaveni border nad navigation barem
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.black, width: 2
+                  )
                 )
-              )
-            ),
-            child: TabBar(
-                indicatorColor: Colors.green,
-                tabs: [
-                  Tab(icon: Icon(Icons.home)),
-                  Tab(icon: Icon(Icons.food_bank)),
-                  Tab(icon: Icon(Icons.local_restaurant)),
-                  Tab(icon: Icon(Icons.calendar_month)),
-                  Tab(icon: Icon(Icons.settings))
-                ]
+              ),
+              child: TabBar(
+                  indicatorColor: Colors.green,
+                  tabs: [
+                    Tab(icon: Icon(Icons.home)),
+                    Tab(icon: Icon(Icons.food_bank)),
+                    Tab(icon: Icon(Icons.local_restaurant)),
+                    Tab(icon: Icon(Icons.calendar_month)),
+                    Tab(icon: Icon(Icons.settings))
+                  ]
+              ),
             ),
           ),
           body: TabBarView(
             children: [
-              Home(
-                themeMode: _themeMode,
-              ),
-              MapaRestauraci(
-                themeMode: _themeMode
-              ),
-              Menu(
-                themeMode: _themeMode,
-              ),
-              Kalendar(
-                themeMode: _themeMode,
-              ),
+              const Home(),
+              const MapaRestauraci(),
+              const Menu(),
+              const Kalendar(),
               Nastaveni(
-                themeMode: _themeMode,
                 toggleMode: _toggleMode,
                 )
             ],

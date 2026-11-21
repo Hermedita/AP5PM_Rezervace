@@ -1,41 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:reztaurace/data/lang_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:reztaurace/darkMode/setMode.dart';
 
 class Nastaveni extends StatefulWidget{
   const Nastaveni({
     super.key,
-    required this.themeMode,
     required this.toggleMode
     });
 
     final void Function() toggleMode;
-    final ThemeMode themeMode;
 
   @override
   State<Nastaveni> createState() => _NastaveniState();
 }
 
 class _NastaveniState extends State<Nastaveni> {
-  bool isDarkMode = false;
 
   @override
   void initState(){
     super.initState();
     retrieveThemeMode();
-  }
-
-  Future<void> retrieveThemeMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if(prefs.getBool("darkMode") != null){
-        if(prefs.getBool("darkMode") == true){
-          isDarkMode = true;
-        }else{
-          isDarkMode = false;
-        }
-      }
-    });
   }
 
   String lang = languages[0];

@@ -6,11 +6,7 @@ import '../widgets/slideshow.dart';
 import '../widgets/circle_list_item.dart';
 
 class Home extends StatelessWidget {
-  const Home({
-  super.key,
-  required this.themeMode
-  });
-  final ThemeMode themeMode;
+  const Home({super.key});
 
   @override
 

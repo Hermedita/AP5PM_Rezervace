@@ -4,12 +4,10 @@ import 'package:reztaurace/data/restaurant_data.dart';
 import '../models/restaurant.dart';
 import '../states/state_restaurant.dart';
 
+import 'package:reztaurace/darkMode/setMode.dart';
+
 class Menu extends StatefulWidget{
-  const Menu({
-  super.key,
-  required this.themeMode
-  });
-  final ThemeMode themeMode;
+  const Menu({super.key});
 
   @override
   State<Menu> createState() => _MenuState();}
@@ -18,7 +16,6 @@ class Menu extends StatefulWidget{
   bool showMenu = false;
   List<Menu> _menus = [];
   bool _loading_active = false;
-  bool isDarkMode = false;
 
 
   @override

@@ -13,12 +13,10 @@ import 'package:reztaurace/widgets/calendar_write_button.dart';
 import 'package:reztaurace/states/state_restaurant.dart';
 import 'package:reztaurace/states/state_timeslot.dart';
 
+import 'package:reztaurace/darkMode/setMode.dart';
+
 class Kalendar extends StatefulWidget{
-  const Kalendar({
-  super.key,
-  required this.themeMode
-  });
-  final ThemeMode themeMode;
+  const Kalendar({super.key});
 
   @override
   State<Kalendar> createState() => _KalendarState();}
@@ -27,7 +25,6 @@ class Kalendar extends StatefulWidget{
     bool showCalendar = false;
     List<Timeslot> _slots = [];
     bool _loading_active = false;
-    bool isDarkMode = false;
 
 
     static const _pageSize = 6;
