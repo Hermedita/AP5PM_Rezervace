@@ -51,7 +51,7 @@ class RowList extends StatelessWidget{
           scrollDirection: Axis.horizontal,
           padding: padding,
           itemCount: items.length,
-          separatorBuilder: (_, __) => SizedBox(width: spacing),
+          separatorBuilder: (_, _) => SizedBox(width: spacing),
           itemBuilder: (context, i) {
             final item = items[i];
             return GestureDetector(

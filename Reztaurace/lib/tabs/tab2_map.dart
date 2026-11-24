@@ -356,7 +356,10 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            menuButton(),
+            menuButton(
+            onTap:(){
+            DefaultTabController.of(context).animateTo(2);
+            }),
             CallButton(phone: restaurant.phone),
           ],
         ),
@@ -364,7 +367,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     );
   }
 
-  ElevatedButton menuButton() {
+  ElevatedButton menuButton({required Null Function() onTap}) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
