@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/menuItem.dart';
 
 class MenuListItem {
   final String name;
@@ -25,25 +26,15 @@ class MenuRowList extends StatelessWidget{
     this.width = 80,
     this.height = 60,
   });
-  final List<MenuListItem> menuitems;
+  final List<MenuItem> menuitems;
   final double width;
   final double height;
 
   Widget _buildImage(String path){
     if (path.startsWith('http')) {
-      return Image.network(
-        path,
-        fit: BoxFit.cover,
-        width: width,
-        height: height,
-      );
+      return Image.network(path,fit: BoxFit.cover,width: width,height: height,);
     }
-      return Image.asset(
-          path,
-          fit: BoxFit.cover,
-          width: width,
-          height: height,
-      );
+      return Image.asset(path,fit: BoxFit.cover,width: width,height: height,);
     }
 
 
@@ -52,11 +43,13 @@ class MenuRowList extends StatelessWidget{
     if (menuitems.isEmpty) return const SizedBox.shrink();
 
     return ListView.separated(
+      shrinkWrap: true,
       padding: EdgeInsetsGeometry.all(15),
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: menuitems.length,
       itemBuilder: (context, i) {
       final menu = menuitems[i];
-        return Container(
-          child: Row(
+        return Row(
             children: [
               //image
               Container(
@@ -65,49 +58,36 @@ class MenuRowList extends StatelessWidget{
                 child: _buildImage(menu.image)
               ),
               //txt - name + description
-              Column(
+              Expanded(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     menu.name,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      decorationStyle: TextDecorationStyle.solid
-                      ),
-                    textAlign: TextAlign.left,
+                      decorationStyle: TextDecorationStyle.solid),
                     ),
                   Text(
                     menu.description,
-                    softWrap: true,
-                    textAlign: TextAlign.left,
-                  )
-                ],
+                    softWrap: true),
+                  ],
+                )
               ),
+
               //cost
               Container(
                 alignment: AlignmentGeometry.centerRight,
                 padding: EdgeInsetsDirectional.all(10),
-                child: Row(
-                  children: [
-                      Text(
-                        menu.price as String,
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                      Text(" Kč", style: TextStyle(fontStyle: FontStyle.italic))
-                  ],
-                ),
+                  child:
+                    Text(
+                    '${menu.price} Kč',
+                     style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
               )
             ],
-          )
-        );
+          );
       },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(
-          height: 1.0,
-          width: double.infinity,
-          child: ColoredBox(color: Color(0xFF000000)),
-        );
-      },
-      itemCount: menuitems.length
+      separatorBuilder: (context, index) => const Divider(height: 1),
     );
   }
 }

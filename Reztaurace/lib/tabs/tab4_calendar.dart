@@ -112,11 +112,21 @@ class Kalendar extends StatefulWidget{
           }
           return ListView(
             children: [
+            //child 0 - uvitaci text
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  "Přidejte si návštěvu do kalendáře!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               //child 1 - name of the restaurant
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(restaurants.name, textAlign: TextAlign.center),),
               //child 2 - calendar
+              //TODO: kalendar vizualne
               if (_loading_active) const Center(child: CircularProgressIndicator()),
               //child 3 - btns with time avaliability
               SingleChildScrollView(

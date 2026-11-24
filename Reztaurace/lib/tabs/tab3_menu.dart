@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:reztaurace/data/menuItem_data.dart';
 import 'package:reztaurace/data/restaurant_data.dart';
+import 'package:reztaurace/widgets/menu_list_item.dart';
 
+import '../models/menuItem.dart';
 import '../models/restaurant.dart';
 import '../states/state_restaurant.dart';
 
@@ -13,17 +16,14 @@ class Menu extends StatefulWidget{
   State<Menu> createState() => _MenuState();}
 
   class _MenuState extends State<Menu> {
-  bool showMenu = false;
-  List<Menu> _menus = [];
-  bool _loading_active = false;
-
+    List<MenuItem> _menus = [];
+    bool _loading_active = false;
 
   @override
   void initState() {
     super.initState();
     selectedRestaurant.addListener(_onRestaurantChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) => _onRestaurantChanged());
-    //retrieveThemeMode();
   }
 
   @override
@@ -35,25 +35,17 @@ class Menu extends StatefulWidget{
   Future<void> _onRestaurantChanged() async {
     final restaurant = selectedRestaurant.value;
     if (restaurant == null){
+      if (!mounted) return;
       setState(() => _menus = []);
-      return;
     }
     setState(() => _loading_active = true);
-    final menu = await fetchMenus(restaurant); //db call
-    if (!mounted) return;
+    final fetchedMenu = await fetchMenu(restaurant!.id);
+    if (!mounted || selectedRestaurant.value?.id != restaurant.id) return;
     setState(() {
-      _menus = menu;
+      _menus = fetchedMenu;
       _loading_active = false;
     });
   }
-
-  //tohle je jenom aby to neházele chyby (nefunguje to!!!!)
-  Future<List<Menu>> fetchMenus(Restaurant r) async {
-    final menus = <Menu>[];
-    r = r;
-    return menus;
-    }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +63,13 @@ class Menu extends StatefulWidget{
           padding: const EdgeInsets.all(16),
           child: Text(restaurants.name, textAlign: TextAlign.center),),
         //child 2 - list of menu items
+        if (_loading_active) const Center(child: CircularProgressIndicator())
+        else
+          MenuRowList(menuitems: _menus),
       ],
     );
   }
   );
 }
 }
+
