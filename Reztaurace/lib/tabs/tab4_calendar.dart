@@ -186,6 +186,7 @@ class Kalendar extends StatefulWidget{
                   timeslot: slot,
                 ),
               ),
+              SizedBox(height: 5),
               //child 5 - btn call into restaurant
               CallButton(phone: restaurants.phone),
             ],

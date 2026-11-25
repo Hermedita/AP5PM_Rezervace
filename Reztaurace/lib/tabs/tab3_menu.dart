@@ -37,9 +37,10 @@ class Menu extends StatefulWidget{
     if (restaurant == null){
       if (!mounted) return;
       setState(() => _menus = []);
+      return;
     }
     setState(() => _loading_active = true);
-    final fetchedMenu = await fetchMenu(restaurant!.id);
+    final fetchedMenu = await fetchMenu(restaurant.id);
     if (!mounted || selectedRestaurant.value?.id != restaurant.id) return;
     setState(() {
       _menus = fetchedMenu;

@@ -130,4 +130,18 @@ const restaurants = [
       OpeningHour(day: Day.SO, from: TimeOfDay(hour: 15, minute: 0), to: TimeOfDay(hour: 23, minute: 0)),
     ],
   ),
+  Restaurant(
+    id: 0008,
+    name: 'Televizní Bistro',
+    image: 'assets/images/008_img.png',
+    lat: 49.82065029047801,
+    lng: 18.266189256633883,
+    place: 'Ostrava',
+    phone: '+420 712 433 450 ',
+    description: 'Bistro, "Ostravské bistro poskytující posezení v hlavní budově České Televize. Přijďte k nám ochutnat tradiční české jídla."',
+    openingHours: [
+      OpeningHour(day: Day.ST, from: TimeOfDay(hour: 2, minute: 0), to: TimeOfDay(hour: 02, minute: 45)),
+      OpeningHour(day: Day.PA, from: TimeOfDay(hour: 0, minute: 0), to: TimeOfDay(hour: 23, minute: 59)),
+    ],
+  ),
 ];
