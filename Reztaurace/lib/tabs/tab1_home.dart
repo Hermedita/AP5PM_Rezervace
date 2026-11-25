@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:reztaurace/widgets/map.dart';
 import '../data/restaurant_data.dart';
 import '../states/state_restaurant.dart';
 
@@ -61,6 +63,7 @@ class Home extends StatelessWidget {
                 onTap: () {
                   selectedRestaurant.value = r;
                   DefaultTabController.of(context).animateTo(1);
+                  mapController.move(LatLng(r.lat, r.lng), 13.0);
                  },
                 ),
           ],

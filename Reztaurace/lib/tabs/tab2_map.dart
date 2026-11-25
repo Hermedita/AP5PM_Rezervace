@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter_map/flutter_map.dart';
+import 'package:reztaurace/widgets/map.dart';
 
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -14,7 +14,6 @@ import 'package:reztaurace/models/restaurant.dart';
 import 'package:reztaurace/darkMode/setMode.dart';
 import 'package:reztaurace/data/map_data.dart';
 
-import '../data/restaurant_data.dart';
 import '../models/openingDay_enum.dart';
 
 class MapaRestauraci extends StatefulWidget{
@@ -25,7 +24,6 @@ class MapaRestauraci extends StatefulWidget{
 }
 
 class _MapaRestauraciState extends State<MapaRestauraci> {
-  MapController mapController = MapController();
   var _loading_active = false;
 
   @override
@@ -73,32 +71,6 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         slideUpPanel(borderRadius),
         locationGiven ? floatingButtonLocationGiven() : floatingButtonLocationNotGiven(),
         ],
-    );
-  }
-
-  FlutterMap map() {
-    return FlutterMap(
-      mapController: mapController,
-      options: MapOptions(
-        initialCenter: LatLng(latitude, longitude),
-        initialZoom: zoom
-      ),
-      children: [
-        TileLayer(urlTemplate: isDarkMode ? "$mapUrl&style=dark3" : mapUrl),
-        MarkerLayer(
-              markers: [
-            ...restaurants.map((r) => Marker(
-              point: LatLng(r.lat, r.lng),
-              width: 80,
-              height: 80,
-              child: GestureDetector(
-                  onTap: () => selectedRestaurant.value = r,
-              child: Icon(Icons.location_on, color: isDarkMode ? const Color.fromARGB(255, 255, 0, 0) : Colors.amber, size: 40),
-              ),
-            )),
-          ],
-        ),
-      ],
     );
   }
 
@@ -244,7 +216,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         valueListenable: selectedRestaurant,
         builder: (context, restaurant, _){
           if (restaurant == null) {
-            return const Center(child: Text('Vyberte restauraci v mapě'));
+            return const Center(child: Text('Vyberte restauraci na mapě'));
           }
           return Center(
             child: Column(
