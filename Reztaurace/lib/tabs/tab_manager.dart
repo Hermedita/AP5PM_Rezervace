@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:reztaurace/data/themes/app_themes.dart';
+import 'package:reztaurace/data/themes/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'tab1_home.dart';
 import 'tab2_map.dart';
 import 'tab3_menu.dart';
 import 'tab4_calendar.dart';
 import 'tab5_settings.dart';
+
+ThemeMode _themeMode = ThemeMode.light;
 
 class TabManager extends StatefulWidget{
   const TabManager({super.key});
@@ -15,7 +18,6 @@ class TabManager extends StatefulWidget{
 }
 
 class _TabManagerState extends State<TabManager> {
-  ThemeMode _themeMode = ThemeMode.light;
   @override
   void initState(){
     super.initState();
@@ -106,6 +108,7 @@ AppBar appBar() {
           fontWeight: FontWeight.bold
         ),
       ),
+      backgroundColor: (_themeMode == ThemeMode.dark) ? baseAppCervena : baseAppModra,
       centerTitle: true,
       elevation: 0.0,
     );
