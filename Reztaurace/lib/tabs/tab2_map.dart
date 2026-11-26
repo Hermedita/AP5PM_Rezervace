@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:reztaurace/data/themes/colors.dart';
 import 'package:reztaurace/widgets/map.dart';
 
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -78,7 +79,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 8.0),
       child: FloatingActionButton(
-        backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
         onPressed: () => {
           setState(() {
             showMap = false;
@@ -94,7 +95,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 8.0),
       child: FloatingActionButton(
-        backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.white,
+        backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
         onPressed: () => {
           setState(() {
             mapController.move(LatLng(latitude, longitude), zoom);
@@ -192,7 +193,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
 
   SlidingUpPanel slideUpPanel(BorderRadius borderRadius) {
     return SlidingUpPanel(
-      color: isDarkMode ? Colors.grey.shade800 : Colors.white,
+      color: isDarkMode ? Colors.grey.shade900 : Colors.white,
       backdropEnabled: true,
       borderRadius: borderRadius,
       collapsed: collapsedPanel(),
@@ -237,18 +238,21 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
     );
   }
 
-  Row restaurantNameRow(Restaurant restaurant) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(height: 100,),
-        Text(
-          restaurant.name,
-          style: TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.bold)
-        ),
-      ],
+  Container restaurantNameRow(Restaurant restaurant) {
+    return Container(
+      color: isDarkMode ? titlesUglyCervena : titlesSvetleModra,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 85),
+          Text(
+            restaurant.name,
+            style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold)
+          ),
+        ],
+      ),
     );
   }
 
