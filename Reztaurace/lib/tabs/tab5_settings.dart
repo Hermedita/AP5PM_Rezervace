@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reztaurace/data/lang_data.dart';
 
 import 'package:reztaurace/darkMode/setMode.dart';
+import 'package:reztaurace/data/themes/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Nastaveni extends StatefulWidget{
   const Nastaveni({
@@ -20,7 +22,7 @@ class _NastaveniState extends State<Nastaveni> {
   @override
   void initState(){
     super.initState();
-    retrieveThemeMode();
+    WidgetsBinding.instance.addPostFrameCallback((_) => themeMode());
   }
 
   String lang = languages[0];
@@ -40,6 +42,21 @@ class _NastaveniState extends State<Nastaveni> {
         ],
       );
   }
+
+Future<void> themeMode() async {
+  final prefs = await SharedPreferences.getInstance();
+  if(prefs.getBool("darkMode") != null){
+    if(prefs.getBool("darkMode") == true){
+      setState(() {
+        isDarkMode = true;
+      });
+    }else{
+      setState(() {
+        isDarkMode = false;
+      });
+    }
+  }
+}
 
   Padding darkModeSettings() {
     return Padding(
@@ -98,6 +115,8 @@ class _NastaveniState extends State<Nastaveni> {
     return Column(
       children: [
         Switch(value: isDarkMode,
+        activeThumbColor: titlesUglyCervena,
+        inactiveTrackColor: titlesSvetleModra,
         onChanged: (bool value) {
           setState(()
           {
