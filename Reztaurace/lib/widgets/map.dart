@@ -9,10 +9,16 @@ import 'package:reztaurace/states/state_restaurant.dart';
 MapController mapController = MapController();
 
 FlutterMap map() {
+  var center;
+  if(restaurantLatLng != null){
+    center = restaurantLatLng;
+  }else if(restaurantLatLng == null){
+    center = LatLng(initialLatitude, initialLongitude);
+  }
   return FlutterMap(
     mapController: mapController,
     options: MapOptions(
-        initialCenter: LatLng(latitude, longitude),
+        initialCenter: center,
         initialZoom: zoom
     ),
     children: [

@@ -98,7 +98,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         backgroundColor: isDarkMode ? Colors.grey.shade900 : Colors.white,
         onPressed: () => {
           setState(() {
-            mapController.move(LatLng(latitude, longitude), zoom);
+            mapController.move(LatLng(initialLatitude, initialLongitude), zoom);
           })
         },
         child:
@@ -401,8 +401,8 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
         }
         setState(() {
           _loading_active = false;
-          latitude = position!.latitude;
-          longitude = position.longitude;
+          initialLatitude = position!.latitude;
+          initialLongitude = position.longitude;
           zoom = 13.0;
           locationGiven = true;
           showMap = true;
@@ -425,8 +425,8 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
       }
       setState((){
         _loading_active = false;
-        latitude = position!.latitude;
-        longitude = position.longitude;
+        initialLatitude = position!.latitude;
+        initialLongitude = position.longitude;
         zoom = 13.0;
         locationGiven = true;
         showMap = true;
