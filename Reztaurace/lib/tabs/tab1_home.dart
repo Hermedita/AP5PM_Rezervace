@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
                 onTap: () {
                   selectedRestaurant.value = r;
                   DefaultTabController.of(context).animateTo(1);
-                  if(restaurantLatLng == null){
+                  if(restaurantLatLng == null && showMap == false){
                     restaurantLatLng = LatLng(r.lat, r.lng);
                   }else{
                     mapController.move(LatLng(r.lat, r.lng), 13.0);

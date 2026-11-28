@@ -219,6 +219,7 @@ class _MapaRestauraciState extends State<MapaRestauraci> {
           if (restaurant == null) {
             return const Center(child: Text('Vyberte restauraci na mapě'));
           }
+          restaurantLatLng = LatLng(restaurant.lat, restaurant.lng);
           return Center(
             child: Column(
               children: [
